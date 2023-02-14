@@ -6,14 +6,20 @@ import { setMode } from 'features/ThemeSlice';
 import profileImg from "../assets/person.jpg"
 import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar, useTheme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar({ isSidebarOpen, setIsSidebarOpen, user }) {
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (e) => setAnchorEl(e.currentTarget);
-    const handleClose = () => setAnchorEl(null)
+    const handleClose = () => {
+        setAnchorEl(null)
+        localStorage.removeItem('userData')
+        navigate('/')
+    }
     return (
         <AppBar
             sx={{
@@ -67,7 +73,7 @@ function Navbar({ isSidebarOpen, setIsSidebarOpen, user }) {
                             <Box
                                 component="img"
                                 alt="profile"
-                                src={profileImg}
+                                // src={profileImg}
                                 height="40px"
                                 width="40px"
                                 borderRadius="50%"

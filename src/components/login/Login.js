@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff} from '@mui/icons-material'
 import { Box,TextField,Button, Card, CardContent, InputAdornment, IconButton } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, {useState} from 'react'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { reactLocalStorage } from 'reactjs-localstorage'
@@ -13,6 +13,7 @@ function Login() {
     //   // localStorage.setItem("data",true)
     //   if(reactLocalStorage.get('admintoken')) navigate('dashboard',{replace:true})
     // },[isSet])
+
     const navigate=useNavigate()
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
@@ -20,28 +21,30 @@ function Login() {
     const [error,setError]=useState({})
     const [showPassword,setShowPassWord]=useState(false)
     const r=/^([\-\.0-9a-zA-Z]+)@([\-\.0-9a-zA-Z]+)\.([a-zA-Z]){1,7}$/
+    // const r1=/^\s*$/
     const clickHandler=async()=>{
         setError(validate())
-        console.log('validate',validate())
-        email && !r.test(email) && alert('enter valid email address')
+        email && !r.test(email) && toast.error('invalid email address')
         const data={
           email:email,
           password:password
         }
-        // if(!Object.entries(validate())){
-        // setError(validate())
-        const result=await HttpClient.requestData('login','POST',data)
-        console.log(result)
-        if(result && result.status){
-           console.log(result.data)
-           reactLocalStorage.setObject("admintoken",{token:result.data})
-           toast.success(result.message)
-           setTimeout(()=>navigate('/dashboard'),1000)
-        }else{
-           toast.error('login failed ... try again')
+
+        if(Object.entries(validate()).length===0){
+
+          if(r.test(email)){
+            const result=await HttpClient.requestData('login','POST',data)
+            console.log(result)
+            if(result && result.status){
+              console.log(result.data)
+              reactLocalStorage.setObject("userData",{token:result.data})
+              toast.success(result.message)
+              setTimeout(()=>navigate('/dashboard'),1000)
+          }else{
+            toast.error(result.message)
+          }
         }
-        console.log(result)
-      // }
+      }
     }
     const validate=()=>{
         const obj={}

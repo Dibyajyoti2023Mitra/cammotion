@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import { createTheme } from '@mui/material/styles';
@@ -12,6 +12,7 @@ import LoginPage from 'scenes/loginpage/LoginPage';
 import { PublicRoute } from 'components/login/PublicRoute';
 import { Toaster } from 'react-hot-toast';
 import CateGoryPage from 'scenes/CategoryPage/CategoryPage';
+import PrivateRoute from 'components/PrivateRoute';
 
 function App() {
   const mode = useSelector((state) => state.global.mode)
@@ -23,15 +24,18 @@ function App() {
          <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/Products" element={<Dashboard />} />
-            <Route path="/category" element={<CateGoryPage/>}>
-          </Route>  
-          </Route>
+            
+              {/* <Route path="/" element={<Navigate to="/dashboard" replace />} /> */}
+              <Route element={<PrivateRoute/>}>
+                  <Route element={<Layout />}>
+                     <Route path="/dashboard" element={<Dashboard />} />  
+                     <Route path="/Products" element={<Dashboard />} />
+                     <Route path="/category" element={<CateGoryPage/>}/>
+                  </Route>
+              </Route>
+          
           <Route element={<PublicRoute/>}>
-              <Route path="/login" element={<LoginPage/>}/>
+              <Route path="/" element={<LoginPage/>}/>
           </Route>
           
           </Routes>

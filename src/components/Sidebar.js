@@ -28,7 +28,8 @@ import {
     CalendarMonthOutlined,
     AdminPanelSettingsOutlined,
     TrendingUpOutlined,
-    PieChartOutlined
+    PieChartOutlined,
+    CategoryOutlined
 } from "@mui/icons-material"
 import profileImg from "../assets/person.jpg"
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -36,62 +37,67 @@ import FlexBetween from './FlexBetween';
 
 
 const navItems = [
-    {
-        text: "Dashboard",
-        icon: <HomeOutlined />
-    },
+  
     {
         text: "Client Facing",
         icon: null,
     },
     {
-        text: "Products",
-        icon: <ShoppingCartOutlined />
+        text: "Categories",
+        icon: null,
     },
     {
-        text: "Customers",
-        icon: <Groups2Outlined />
+        text: "Category",
+        icon: <CategoryOutlined />,
     },
-    {
-        text: "Transactions",
-        icon: <ReceiptLongOutlined />
-    },
-    {
-        text: "Geography",
-        icon: <PublicOutlined />
-    },
-    {
-        text: "Sales",
-        icon: null
-    },
-    {
-        text: "Overview",
-        icon: <PointOfSaleOutlined />
-    },
-    {
-        text: "Daily",
-        icon: <TodayOutlined />
-    },
-    {
-        text: "Monthly",
-        icon: <CalendarMonthOutlined />
-    },
-    {
-        text: "Breakdown",
-        icon: <PieChartOutlined />
-    },
-    {
-        text: "Management",
-        icon: null
-    },
-    {
-        text: "Admin",
-        icon: <AdminPanelSettingsOutlined />
-    },
-    {
-        text: "Performance",
-        icon: <TrendingUpOutlined />
-    },
+    // {
+    //     text: "Products",
+    //     icon: <ShoppingCartOutlined />
+    // },
+    // {
+    //     text: "Customers",
+    //     icon: <Groups2Outlined />
+    // },
+    // {
+    //     text: "Transactions",
+    //     icon: <ReceiptLongOutlined />
+    // },
+    // {
+    //     text: "Geography",
+    //     icon: <PublicOutlined />
+    // },
+    // {
+    //     text: "Sales",
+    //     icon: null
+    // },
+    // {
+    //     text: "Overview",
+    //     icon: <PointOfSaleOutlined />
+    // },
+    // {
+    //     text: "Daily",
+    //     icon: <TodayOutlined />
+    // },
+    // {
+    //     text: "Monthly",
+    //     icon: <CalendarMonthOutlined />
+    // },
+    // {
+    //     text: "Breakdown",
+    //     icon: <PieChartOutlined />
+    // },
+    // {
+    //     text: "Management",
+    //     icon: null
+    // },
+    // {
+    //     text: "Admin",
+    //     icon: <AdminPanelSettingsOutlined />
+    // },
+    // {
+    //     text: "Performance",
+    //     icon: <TrendingUpOutlined />
+    // },
 ]
 function SidebarComp({
     drawerWidth,
