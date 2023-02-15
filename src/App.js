@@ -13,6 +13,8 @@ import { PublicRoute } from 'components/login/PublicRoute';
 import { Toaster } from 'react-hot-toast';
 import CateGoryPage from 'scenes/CategoryPage/CategoryPage';
 import PrivateRoute from 'components/PrivateRoute';
+import Category from 'components/Category/Category';
+// import CategoryTable from 'components/Category/CategoryTable';
 
 function App() {
   const mode = useSelector((state) => state.global.mode)
@@ -31,6 +33,8 @@ function App() {
                      <Route path="/dashboard" element={<Dashboard />} />  
                      <Route path="/Products" element={<Dashboard />} />
                      <Route path="/category" element={<CateGoryPage/>}/>
+                     <Route path="/category/:id" element={<Category />}/>
+                     {/* <Route path="/CategoryDetails" element={<CategoryTable/>}></Route> */}
                   </Route>
               </Route>
           
