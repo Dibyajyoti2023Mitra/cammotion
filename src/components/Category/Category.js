@@ -18,7 +18,7 @@ function Category({count,setCount}) {
   const clickHandler=async(e)=>{
     e.preventDefault()
     setError(validate())
-    console.log('location.status._id',location.state._id)
+    // console.log('location.status._id',location.state._id)
     if(location.state){
       console.log("edit page")
        const result=await HttpClient.requestData(`update-category/${location.state._id}`,'PUT',submitValues)
@@ -87,8 +87,8 @@ function Category({count,setCount}) {
             <h2 style={{fontWeight:'bold',textAlign:'center'}}>
               {location.state ?"Edit Category" :"Add Category"}</h2>
             <TextField id="my-input" label='Category Name' aria-describedby="my-helper-text" 
-            value={submitValues.name}
-             onChange={(e)=>{
+              value={submitValues.name}
+              onChange={(e)=>{
               setSubmitValues((prev)=>{
                 return {
                   ...prev,

@@ -7,6 +7,7 @@ import profileImg from "../assets/person.jpg"
 import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar, useTheme } from '@mui/material';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 function Navbar({ isSidebarOpen, setIsSidebarOpen, user }) {
     const dispatch = useDispatch();
@@ -17,8 +18,12 @@ function Navbar({ isSidebarOpen, setIsSidebarOpen, user }) {
     const handleClick = (e) => setAnchorEl(e.currentTarget);
     const handleClose = () => {
         setAnchorEl(null)
+       
+    }
+    const handleLogout = ()=>{
         localStorage.removeItem('userData')
         navigate('/')
+        toast.success("Logout successful")
     }
     return (
         <AppBar
@@ -104,7 +109,7 @@ function Navbar({ isSidebarOpen, setIsSidebarOpen, user }) {
                             onClose={handleClose}
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                         >
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleLogout}>
                                 Log out
                             </MenuItem>
                         </Menu>

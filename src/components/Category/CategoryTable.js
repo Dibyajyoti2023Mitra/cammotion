@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 // import { Container } from "@mui/system";
 
 // const rows = [];
-export default function CategoryTable({count,setCount}) {
+export default function CategoryTable({count,setCount}){
   const [rows, setRows] = useState([]);
   const navigate=useNavigate()
   const [pageSize, setPageSize] = React.useState(5);
@@ -69,10 +69,10 @@ export default function CategoryTable({count,setCount}) {
         headerName: "actions",
         width:150,
         renderCell:params=> <Box>
-          <Button variant="contained" sx={{color:'white',backgroundColor:'red'}} 
-         onClick={()=>editCategory(params.row)} color="primary">Edit</Button>
-        <Button variant="contained" onClick={()=>deleteCategory(params.row)} 
-        color="primary">Delete</Button>
+            <Button variant="contained" sx={{color:'white',backgroundColor:'red'}} 
+              onClick={()=>editCategory(params.row)} color="primary">Edit</Button>
+            <Button variant="contained" onClick={()=>deleteCategory(params.row)} 
+              color="primary">Delete</Button>
         </Box>
     }
 

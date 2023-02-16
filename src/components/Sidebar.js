@@ -43,12 +43,20 @@ const navItems = [
         icon: null,
     },
     {
-        text: "Categories",
+        text: "Ecommerce",
         icon: null,
     },
     {
         text: "Category",
         icon: <CategoryOutlined />,
+    },
+    {
+        text:"SubCategory",
+        icon:<CategoryOutlined/>,
+    },
+    {
+        text: "Sub-subCategory",
+        icon:<CategoryOutlined/>
     },
     // {
     //     text: "Products",
@@ -201,7 +209,7 @@ function SidebarComp({
                             <Box
                                 component="img"
                                 alt="profile"
-                                src={profileImg}
+                                // src={profileImg}
                                 height="40px"
                                 width="40px"
                                 borderRadius="50%"
