@@ -3,6 +3,10 @@ import { FormControl, Button, TextField, Box, Input} from '@mui/material'
 import HttpClient from 'utils/HttpClient'
 import { toast } from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Header from 'components/Header'
+import InputTextField from '../InputTextField'
+
+
 // import CategoryTable from './CategoryTable'
 
 function Category({count,setCount}) {
@@ -74,60 +78,63 @@ function Category({count,setCount}) {
   }
 
   return (
-   <Box>
-     <Box sx={{
-      display:"flex",
-      justifyContent:"center",
-      alignContent:"center",
-      marginTop:"60px",
-    }}>
-      <FormControl sx={{gap:"30px",
-      margin:"40px",
-      padding:"20px"}} fullWidth>
-            <h2 style={{fontWeight:'bold',textAlign:'center'}}>
-              {location.state ?"Edit Category" :"Add Category"}</h2>
-            <TextField id="my-input" label='Category Name' aria-describedby="my-helper-text" 
-              value={submitValues.name}
-              onChange={(e)=>{
-              setSubmitValues((prev)=>{
-                return {
-                  ...prev,
-                  name:e.target.value
-                }
-               })
-             }}
-             error={error.nameerr}
-             helperText={error.nameerr ? 'please provide a description':''}
-            />
-            <Box>
-            <Input type='file' 
-             onChange={e=>{fetchImgUrl(e.target.files[0])}}
-             variant='standard' 
-             />
-            {submitValues.img && (
-               <img src={submitValues.img} width="100" height="100" />
-            )}
-            </Box>
+     <Box sx={{ textAlign: "center" }} m="10px">
+        <Header subtitle={"Add Category"}/>
+           <Box mt="10px">
+            <Box mt="20px">
+              <Box mb={"15px"}>
+                   <TextField id="my-input" label='Category Name' aria-describedby="my-helper-text" 
+                      value={submitValues.name}
+                      fullWidth
+                      onChange={(e)=>{
+                      setSubmitValues((prev)=>{
+                         return {
+                            ...prev,
+                            name:e.target.value
+                       }
+                      })
+                   }}
+                    error={error.nameerr}
+                    helperText={error.nameerr ? 'please provide a category name':''}
+                  />
+              </Box>
+               <Box mb={"15px"}>
+                 <TextField type='file'
+                  fullWidth 
+                  onChange={e=>{fetchImgUrl(e.target.files[0])}}
+                  variant='outlined'
+                  />
+                 {submitValues.img && (
+                    <img src={submitValues.img} width="100" height="100" />
+                 )}
+                </Box>
           {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
-             <TextField
-             label='Category Description'
-             value={submitValues.desc}
-             onChange={e=>setSubmitValues((prev)=>{
-                return {
-                  ...prev,
-                  desc:e.target.value
+                <Box mb={"15px"}>
+                   <TextField
+                     label='Category Description'
+                     value={submitValues.desc}
+                     fullWidth
+                     onChange={e=>setSubmitValues((prev)=>{
+                     return {
+                        ...prev,
+                        desc:e.target.value
+                     }
+                   })
                 }
-             })
-          }
-          error={error.descerr}
-          helperText={error.descerr ? 'please provide a description':''}
-          maxrows={20} 
-          multiline/>
-            <Button variant='contained' onClick={e=>clickHandler(e)}>{location.state ? 'Edit':'Add'}</Button>
-          </FormControl>
+                    error={error.descerr}
+                    helperText={error.descerr ? 'please provide a description':''}
+                    maxrows={20} 
+                    multiline/>  
+                </Box>
+
+               <Box mt="10px">
+                <Button variant='contained' onClick={e=>clickHandler(e)} size="medium">
+                  {location.state ? 'Edit':'Add'}</Button>
+               </Box>
+            </Box>         
+          </Box>
     </Box>
 
-   </Box>
   )
 }
 

@@ -109,7 +109,7 @@ export default function CategoryTable({count,setCount}){
   }, [count]);
   return (
     
-    <Box sx={{ height: 400, width: "96%", margin: "100px"}}>
+   
       <DataGrid
         rows={rows}
         columns={columns}
@@ -123,7 +123,6 @@ export default function CategoryTable({count,setCount}){
         components={{
           Toolbar: GridToolbar,
         }}
-      />
-    </Box>
+      />  
   );
 }

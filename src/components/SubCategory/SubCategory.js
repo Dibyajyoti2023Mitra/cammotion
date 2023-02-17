@@ -107,10 +107,12 @@ function SubCategory({count,setCount}) {
             <h2 style={{fontWeight:'bold',textAlign:'center'}}>
               {location.state ? "Edit Subcategory" : "Add Subcategory"}</h2>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select  onChange={(e)=>selectCategory(e)}
+              <TextField  onChange={(e)=>selectCategory(e)}
+                select
                 defaultValue={submitValues.catID}
-                // label={}
+                label="category"
                 error={error.catIDerr}
+                helperText={error.catIDerr ? 'please select a category' : ''}
                 inputProps={{ 'aria-label': 'Without label' }}>
                  {/* loading.state ? (<MenuItem value={submitValues.catID}></MenuItem>) :*/}
                
@@ -122,8 +124,8 @@ function SubCategory({count,setCount}) {
                    )
                   })
                  }
-              </Select>
-              <FormHelperText>{error.catIDerr ? 'please select a category ID' : ''}</FormHelperText>
+              </TextField>
+              <FormHelperText></FormHelperText>
             </FormControl>
               {/* {location.state ?"Edit Sub-category" :"Add Sub-category"}</h2> */}
             <TextField id="my-input" label='Sub-category Name' aria-describedby="my-helper-text"

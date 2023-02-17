@@ -55,7 +55,11 @@ const navItems = [
         icon:<CategoryOutlined/>,
     },
     {
-        text: "Sub-subCategory",
+        text: "sub-subcategory",
+        icon:<CategoryOutlined/>
+    },
+    {
+        text:"Products",
         icon:<CategoryOutlined/>
     },
     // {

@@ -1,49 +1,71 @@
 import { useTheme } from '@emotion/react'
-import { FormatTextdirectionLToROutlined } from '@mui/icons-material'
-import { Box, Button, FormControl, Input, MenuItem, Select, TextField } from '@mui/material'
+import { Button, FormControl, FormHelperText, Input, MenuItem, Select, TextField } from '@mui/material'
+import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 import HttpClient from 'utils/HttpClient'
+import SSCategoryTable from './SSCategoryTable'
+
 
 
 
 function SubSubCategory({count,setCount}) {
   const location=useLocation()
   const [category,setCategory]=useState([])
+  const [subCategory,setSubCategory]=useState([])
   const [submitValues,setSubmitValues]=useState({
     catID:location.state ? location.state.catID : "",
-    subCatID:location.state ? location.state.subCatID : "",
     name:location.state ? location.state.name : "",
     img:location.state ? location.state.img : "",
-    desc:location.state ? location.state.desc : ""
+    desc:location.state ? location.state.desc : "",
+    subCatID:location.state? location.state.subCatID : ""
   })
+  const [error,setError]=useState({})
   const theme=useTheme()
   const navigate=useNavigate()
 
+  // console.log(location.state,"location.state")
   const clickHandler=async(e)=>{
       e.preventDefault()
+      setError(validate())
       if(location.state){
+          // const result=await HttpClient.requestData(`update-subcategory/${}`)
           console.log("edit Subcategorypage")
-          const result=await HttpClient.requestData(`update-category/${location.state._id}`,'PUT',submitValues)
+          const result=await HttpClient.requestData(`update-subSubCategory/${location.state._id}`,'PUT',submitValues)
           if(result.status){
               toast.success(result.message)
+              // location.status={}
               setTimeout(()=>{
-                   navigate('/subcategory')
+                   navigate('/sub-subcategory')
               },1000)
       }
     }
     else{
-      const result=await HttpClient.requestData('add-subcategory','POST',submitValues)
-      if(result.status){
-        // console.log('result', result)
-        setCount(count+1)
-        toast.success(result.message)
+      if(Object.entries(validate()).length===0){
+         const result=await HttpClient.requestData('add-subSubCategory','POST',submitValues)
+         if(result.status){
+            // console.log('result', result)
+            setCount(count+1)
+            toast.success(result.message)
+         }
       }
-    } 
+    }
+  }
+
+
+  const validate=()=>{
+    const obj={}
+    if(!submitValues.name) obj.nameerr=true
+    if(!submitValues.img)  obj.imgerr=true
+    if(!submitValues.desc) obj.descerr=true
+    if(!submitValues.catID) obj.catIDerr=true
+    if(!submitValues.subCatID) obj.subCatIDerr=true
+    return obj
   }
   
   const selectCategory=e=>setSubmitValues({...submitValues,catID:e.target.value})
+  const selectSubCategory=e=>setSubmitValues({...submitValues,subCatID:e.target.value})
 
    const fetchImgUrl=async(img)=>{
     const data=new FormData()
@@ -51,7 +73,7 @@ function SubSubCategory({count,setCount}) {
     console.log('dddd',data)
     const res=await HttpClient.fileUplode('upload','POST',data)
     if(res.status){
-      console.log(res)
+      // console.log(res)
       setSubmitValues((prev)=>{
         return {
           ...prev,
@@ -63,67 +85,84 @@ function SubSubCategory({count,setCount}) {
 
   const fetchCategory=async()=>{
     const result=await HttpClient.requestData('get-Category','GET',{})
+    // console.log('CategoryresultData', result)
     if(result.status){
-      // console.log(result)
       setCategory(result.data)
     }
   }
 
-  // const fetchSubCategory=async()=>{
-  //   const result=await HttpClient.requestData('get-subcategory','GET',)
-  // }
+
+  const fetchSubCategory=async()=>{
+    const result=await HttpClient.requestData("get-subcategory","GET",{})
+    if(result.status){
+       setSubCategory(result.data)
+    }
+  }
 
   useEffect(()=>{
      fetchCategory()
+     fetchSubCategory()
   },[])
 
-// useEffect(()=>{
-//   console.log(submitValues.catID)
-// },[submitValues.catID])
 
   return (
     <Box>
       <Box sx={{
       display:"flex",
-      justifyContent:"center",
-      alignContent:"center",
+      // async function requestData(url, method, params = null) {
       marginTop:"60px",
       }}>
          <FormControl sx={{gap:"30px",
           margin:"40px",
           padding:"20px"}} fullWidth>
             <h2 style={{fontWeight:'bold',textAlign:'center'}}>
-              {location.state ? "Edit Subcategory" : "Add Subcategory"}</h2>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select
-                labelId="demo-simple-select-autowidth-label"
-                id="demo-simple-select-autowidth"
-                onChange={(e)=>selectCategory(e)}
+              {location.state ? "Edit Sub-sub category" : "Add Sub-sub category"}</h2>
+              <TextField  onChange={(e)=>selectCategory(e)}
+                select
                 defaultValue={submitValues.catID}
+                label="category"
+                error={error.catIDerr}
+                helperText={error.catIDerr ? 'please select a category' : ''}
                 inputProps={{ 'aria-label': 'Without label' }}>
-                 {/* loading.state ? (<MenuItem value={submitValues.catID}></MenuItem>) :*/}
-                 <MenuItem value="">
-                    <em>None</em>
-                 </MenuItem>
+               
                  {
                    category.length > 0 && category.map((e,i)=>{
+                     return (
+                        <MenuItem value={e._id}>{e.name}</MenuItem>
+                     )
+                  })
+                 }
+              </TextField>
+
+              <TextField  onChange={(e)=>selectSubCategory(e)}
+                select
+                defaultValue={submitValues.subCatID}
+                label="sub-category"
+                error={error.subCatIDerr}
+                helperText={error.subCatIDerr ? 'please select a Sub category' : ''}
+                inputProps={{ 'aria-label': 'Without label' }}>
+               
+                 {
+                   subCategory.length > 0 && subCategory.map((e,i)=>{
                    // console.log(e)
                    return (
                       <MenuItem value={e._id}>{e.name}</MenuItem>
                    )
                   })
                  }
-              </Select>
-            </FormControl>
+              </TextField>
               {/* {location.state ?"Edit Sub-category" :"Add Sub-category"}</h2> */}
-            <TextField id="my-input" label='Sub-category Name' aria-describedby="my-helper-text"
+            <TextField id="my-input" label='Sub-sub Category Name' aria-describedby="my-helper-text"
             value={submitValues.name}
              onChange={e=>setSubmitValues((prev)=>{
               return {
                 ...prev,
                 name:e.target.value
               }
-             })}/>
+             })}
+             error={error.nameerr}
+             helperText={error.nameerr ? 'please provide a Sub-sub Category name':''}
+             />
             <Box>
                <Input type='file' 
                  onChange={e=>{fetchImgUrl(e.target.files[0])}}
@@ -134,7 +173,7 @@ function SubSubCategory({count,setCount}) {
             </Box>
           {/* <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
             <TextField
-              label='Sub-category Description'
+              label='Sub-sub Category Description'
               value={submitValues.desc}
               onChange={e=>setSubmitValues(prev=>{
                 return {
@@ -142,11 +181,14 @@ function SubSubCategory({count,setCount}) {
                   desc:e.target.value
                 }
               })}
-              maxrows={20} multiline/>
+              error={error.descerr}
+              helperText={error.descerr ? 'please provide a Sub-sub Category description':''}
+              maxrows={20} 
+              multiline/>
             <Button variant='contained' onClick={e=>clickHandler(e)}>{location.state ? "Edit" : "Add"}</Button>
          </FormControl>
       </Box>
-      {/* <Box
+      { !location.state && <Box
       height="90vh"
       sx={{
         "& .MuiDataGrid-root": {
@@ -172,8 +214,9 @@ function SubSubCategory({count,setCount}) {
           color: `${theme.palette.secondary[200]} !important`,
         },
       }}>
-          <SubCatTable count={count} setCount={setCount} values={submitValues}/>
-      </Box>  */}
+          <SSCategoryTable count={count} setCount={setCount} values={submitValues}/>
+      </Box> 
+      }
     </Box>
   )
 }
